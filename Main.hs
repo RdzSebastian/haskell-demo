@@ -4,6 +4,9 @@
 {-# OPTIONS_GHC -Wno-name-shadowing #-}
 {-# OPTIONS_GHC -Wno-type-defaults #-}
 {-# OPTIONS_GHC -Wno-unused-matches #-}
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Use foldr" #-}
+{-# HLINT ignore "Use map" #-}
 
 -- --------------------------------
 -- Clase 2
@@ -89,19 +92,8 @@ color cualquiera = "gris"
 
 -- El orden en el que se declara es importante, se va verificando de arriba hacia abajo hasta que se encuentra y se deja de verificar
 
--- --------------------------------
--- Ejercicio 3
-
--- Otro ejemplo de pattern matching
-
-factorial :: Integer -> Integer
--- Seteamos que el factorial de 0 es 1
--- De otra manera al llegar al 0, seguiria restando en negativo al infinito
-factorial 0 = 1
-factorial n = n * factorial (n - 1)
-
 -- ---------------------------------
--- Ejercicio 4
+-- Ejercicio 3
 
 -- Type Classes restrictivo, (Num a) => a hace q a solo acepte Num
 
@@ -109,7 +101,7 @@ doble :: (Num a) => a -> a
 doble x = 2 * x
 
 -- ---------------------------------
--- Ejercicio 5
+-- Ejercicio 4
 
 -- Definimos una funcion que nos diga si un numero y otro tienen una diferencia de 10 entre si como minimo.
 -- Pero en este caso dejamos q infiera el tipo el interprete de haskell por lo cual solo definimos la funcion y ya
@@ -135,7 +127,7 @@ edad2 "Mati" = 23
 
 -- ---------------------------------
 -- Clase 4
--- Ejercicio 6
+-- Ejercicio 5
 
 -- Precedencia de operadores
 -- Las funciones prefijas tienen mas precedencia que los operadores o funciones infijas
@@ -149,7 +141,7 @@ precedencia2 = 8 + 7 * 2
 -- Para modificar este comportamiento por defecto, usar parentesis
 
 -- ---------------------------------
--- Ejercicio 7
+-- Ejercicio 6
 
 -- Dado un día y un booleano  que indica si es feriado o no , se desea saber el horario de cierre del supermercado:
 
@@ -171,7 +163,7 @@ horarioDeCierre _ True = 20
 horarioDeCierre dia False = 12 + length dia
 
 -- ---------------------------------
--- Ejercicio 8
+-- Ejercicio 7
 
 -- Función Parcial
 -- Está definida en una parte del dominio y no tiene valores asociados para elementos fuera de dicha parte
@@ -203,7 +195,7 @@ f1 x
   | otherwise = -1
 
 -- ---------------------------------
--- Ejercicio 9
+-- Ejercicio 8
 -- Tuplas (define datos compuestos)
 type Persona = (Nombre, Edad)
 
@@ -218,7 +210,7 @@ edadDePersona :: Persona -> Edad
 edadDePersona (_, edadP) = edadP
 
 -- ---------------------------------
--- Ejercicio 10
+-- Ejercicio 9
 -- Utilizacion de "Data"
 
 -- Se desea modelar estudiantes de quienes se conocen su nombre, legajo y nota.
@@ -327,7 +319,7 @@ subirNota estudiante = cambiarNota (nota estudiante +1) estudiante
 -- UnEstudiante {nombre2 = "Juanita", legajo = "456", nota = 6}
 
 -- ---------------------------------
--- Ejercicio 11 
+-- Ejercicio 10 
 -- Tipos y que muestran en consola
 
 -- snd("hola", 1) 1
@@ -400,7 +392,8 @@ personas = [juan, maria, jose]
 -- last, head, maximum, ++, reverse, tail, a:[b,c], take n, lista||numero , minimum, sum,  sort
 
 -- ---------------------------------
---Aplicación Parcial
+-- Aplicación Parcial
+-- Ejercicio 12
 
 -- Invocar a una función con menos parámetros que los declarados en su definición.
 
@@ -448,13 +441,114 @@ dobleDelCuadrado = doble . cuadrado
 -- Tambien como se puede ver se elimina el parametro "x" o en el caso anterior, el parametro "estudiante", esto se denomina "Point Free"
 
 -- ---------------------------------
--- Recursividad
+-- Recursividad en funciones 
 
+factorial :: Integer -> Integer
+-- Seteamos que el factorial de 0 es 1
+-- De otra manera al llegar al 0, seguiria restando en negativo al infinito
+factorial 0 = 1
+factorial n = n * factorial (n - 1)
+
+-- Esta función, factorial, toma un entero n como argumento y devuelve el factorial de ese número. La definición tiene dos casos:
+
+-- El caso base: Si n es 0, entonces el factorial es 1. Esto es lo que se define con factorial 0 = 1.
+
+-- El caso recursivo: Si n es cualquier otro número, el factorial se calcula multiplicando n por el factorial de n - 1. Esto se logra con factorial n = n * factorial (n - 1).
+
+-- Cuando llamas a factorial con un número entero, la función se llama a sí misma repetidamente hasta que alcanza el caso base (cuando n es 0), y luego todas las llamadas recursivas se resuelven para obtener el resultado final.
+
+-- ---------------------------------
+-- Recursividad en Listas 
+
+-- El patrón (x:xs) se utiliza comúnmente en Haskell para descomponer una lista en su primer elemento (x) y el resto de la lista (xs)
+
+-- Calcular la longitud de una Lista
+
+longitud :: [a] -> Int
+
+-- caso base: la longitud de una lista vacía es 0
+longitud [] = 0
+
+-- caso recursivo: la longitud es 1 más la longitud del resto de la lista
+longitud (x:xs) = 1 + longitud xs  
+
+-- Caso base: Si la lista es vacía ([]), entonces la longitud es 0. Esta es la línea longitud [] = 0.
+
+-- Caso recursivo: Si la lista no está vacía y tiene al menos un elemento (x), la longitud es 1 más la longitud del resto de la lista (xs).
+
+-- Cuando llamas a longitud con una lista, la función se llama a sí misma recursivamente, pasando el resto de la lista cada vez, hasta que alcanza la lista vacía, momento en el que se detiene y devuelve 0. Luego suma los resultados a medida que regresa a través de las llamadas recursivas para obtener la longitud total.
+
+-- ---------------------------------
+-- Ejercicio 13
+
+-- Genere función para encontrar los dobles de una lista
+numeros :: [Int]
+numeros = [1, 2, 3, 4, 5]
+
+doblesDeLista :: [Int] -> [Int]
+doblesDeLista [] = []
+doblesDeLista (x : xs) = x * 2 : doblesDeLista xs
+
+-- Genere función sumatoria de los elementos de una lista
+sumatoriaDeLista :: [Int] -> Int
+sumatoriaDeLista [] = 0
+sumatoriaDeLista (x : xs) = x + sumatoriaDeLista xs
+
+-- Genere la función longitud de una lista
+longitudDeLista :: [Int] -> Int
+longitudDeLista [] = 0
+longitudDeLista (x : xs) = 1 + longitudDeLista xs
+
+-- Genere la función numero elevado a otro numero
+potencia :: Int -> Int -> Int
+potencia _ 0 = 1
+potencia x xs = x * potencia x (xs - 1)
+
+-- Genere la función mientras no supera el tope muestra el elemento de la lista.
+mostrarElementoNLista :: [Int] -> Int -> Int
+
+-- Caso base: si la lista es vacía no devuelvo 0
+mostrarElementoNLista [] _ = 0
+
+mostrarElementoNLista (x : xs) n
+-- Caso base adicional 1: si n es menor a 0 devuelvo 0
+  | n <= 0 = 0
+  
+-- Caso base adicional 2: si n ayor al length de la lista, devuelve 0
+  | n > length xs + 1 = 0
+
+ -- Si n es igual a 1, devuelve el elemento de la lista
+  | n == 1 = x
+
+  -- Si n es mayor que 1, sigue buscando en el resto de la lista
+  | otherwise = mostrarElementoNLista xs (n-1)  
+
+-- Genere la función mostrar los n elementos primeros de la lista.
+mostrarPrimerosLista :: [Int] -> Int -> [Int]
+
+-- Caso base: si la lista es vacía, devuelve una lista vacía
+mostrarPrimerosLista _ 0 = []
+
+mostrarPrimerosLista (x : xs) n
+-- Caso base adicional 1: si n es menor o igual a 0, devuelve una lista vacía
+  | n <= 0 = []
+  
+-- Caso base adicional 2: si n es mayor al length de la lista, devuelve la lista completa
+  | n > length xs + 1 = x:xs
+
+-- Caso recursivo: añade el primer elemento a la lista de los primeros n-1 elementos de xs
+  | otherwise = x : mostrarPrimerosLista xs (n - 1)
 
 
 -- ---------------------------------
 -- Clase 6
--- Ejercicio 12
+
+-- Orden superior
+
+
+
+-- ---------------------------------
+-- Ejercicio 14
 -- Utilizacion de filter y map en listas
 
 -- Creacion de type class
@@ -481,7 +575,6 @@ infosNutricionales = [infoManzana, infoBanana, infoPera]
 -- ---------------------------------
 
 -- Cuales de los alimentos tienen hasta 100 calorias
-
 menorDe100Calorias :: InfoNutricional -> Bool
 menorDe100Calorias a = calorias a > 100
 
@@ -491,7 +584,7 @@ menos100Calorias = map alimento . filter menorDe100Calorias
 
 -- ---------------------------------
 -- Clase 7
--- Ejercicio 13
+-- Ejercicio 15
 -- Utilizacion de any y elem
 
 -- Creacion de type classes
