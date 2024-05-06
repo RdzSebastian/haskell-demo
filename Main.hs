@@ -7,6 +7,7 @@
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use foldr" #-}
 {-# HLINT ignore "Use map" #-}
+{-# HLINT ignore "Eta reduce" #-}
 
 -- --------------------------------
 -- Clase 2
@@ -66,19 +67,22 @@ nombreFormateado nombre apellido = apellido ++ ", " ++ nombre
 -- --------------------------------
 -- Ejercicio 3
 
+-- Pattern Matching: Se utiliza de funciones para manejar diferentes casos frente a la considencia de valores. Haskell verifica exhaustivamente los patrones, garantizando que todos los casos sean cubiertos.
+
+-- Mas consiso seria: Permite asignar comportamientos basados concidencias de valores, listas, etc.
+
+-- Esto es fundamental para la escritura de funciones recursivas y la manipulación de datos en programas funcionales.
+
 color :: String -> String
 color "banana" = "amarillo"
 color "manzana" = "rojo"
 color "limon" = "amarillo"
--- Pattern Matching: es una técnica para comparar valores con patrones definidos y realizar acciones basadas en esas comparaciones. Es como buscar coincidencias entre lo que tienes y lo que esperas, y actuar en consecuencia.
-
--- Esto es fundamental para la escritura de funciones recursivas y la manipulación de datos en programas funcionales.
 
 -- Al ingresar:
 -- color “banana”
 -- En la consola, nos devolvera "Amarillo"
 
--- Al ingresar un colo no definido ej:
+-- Al ingresar un color no definido ej:
 -- color "naranja"
 -- Devolvera Exception: app/Main.hs:(1,1)-(3,26): Non-exhaustive patterns in function color
 
@@ -103,17 +107,17 @@ doble x = 2 * x
 -- ---------------------------------
 -- Ejercicio 4
 
+-- Inferencia
+-- Se refiere a la capacidad del compilador o intérprete de deducir automáticamente el tipo de una expresión en función del contexto en el que se utiliza, sin necesidad de que el programador especifique explícitamente el tipo.
+
 -- Definimos una funcion que nos diga si un numero y otro tienen una diferencia de 10 entre si como minimo.
 -- Pero en este caso dejamos q infiera el tipo el interprete de haskell por lo cual solo definimos la funcion y ya
 
 -- esmuchomayor :: (Ord a, Num a) => a -> a -> Bool
 esMuchoMayor n m = abs (n - m) > 10
 
--- Inferencia
--- Se refiere a la capacidad del compilador o intérprete de deducir automáticamente el tipo de una expresión en función del contexto en el que se utiliza, sin necesidad de que el programador especifique explícitamente el tipo.
-
--- Alias de tipos de datos
-edad :: String -> Int
+-- Tambien podemos aplicar inferencia en la declaracion de edad
+-- edad :: String -> Int
 edad "Mati" = 23
 
 -- Tambien se podria con mas expresividad usando:
@@ -177,9 +181,15 @@ diaDeSemana 5 = "Viernes"
 diaDeSemana 6 = "Sabados"
 diaDeSemana 7 = "Domingos"
 
--- Si se usa diaDeSemana 8 "*** Exception: app/Main.hs:(176,1)-(182,26): Non-exhaustive patterns in function diaDeSemana
+-- Si se usa diaDeSemana 8 arrojara:
+-- "*** Exception: app/Main.hs:(176,1)-(182,26): Non-exhaustive patterns in function diaDeSemana
 
--- Para resover esto se puede implementar
+-- Esto se da a causa de que Haskell no tiene un patron definido para el dia 8 o mejor dicho, no existe un pattern matching para el dia 8
+
+-- Cuando definimos funciones en Haskell con patern matching es necesario incluir un caso por defecto o manejar todas las posibilidades ej:
+-- diaDeSemana _ = "Número de día inválido"
+
+-- Para resover esto de otra manera sino se puede implementar
 
 -- Función Partida o con Guardas
 f :: Int -> Int
@@ -211,22 +221,26 @@ edadDePersona (_, edadP) = edadP
 
 -- ---------------------------------
 -- Ejercicio 9
--- Utilizacion de "Data"
+-- Data
+
+-- Se utiliza para definir estructuras de datos complejos que contienen diferentes tipos de datos. Similar a la utilizacion de struct en C
+-- Permiter agrupar múltiples variables o campos bajo un solo nombre para representar un concepto más complejo.
+
+-- -- 
 
 -- Se desea modelar estudiantes de quienes se conocen su nombre, legajo y nota.
 -- Se necesita saber si un estudiante aprobó
 
 -- Creacion del tipo Estudiante
--- donde UnEstudiante es el constructor y estudante el data
+-- donde UnEstudiante es el constructor y estudiante el data
 data Estudiante = UnEstudiante
   { nombre2 :: String,
     legajo :: String,
     nota :: Int
   }
   deriving (Show, Eq)
-  -- Extensiones de Clases
-  -- Al usar deriving permite mostrar y comparar los datos de la clase con solo colocar: "juanita" en consola, o permite hacer "juanita == pedrito" lo que devolvera False
-
+-- Extensiones de Clases
+-- Al usar deriving permite mostrar y comparar los datos de la clase con solo colocar: "juanita" en consola, o permite hacer "juanita == pedrito" lo que devolvera False
 
 -- Asignacion de valores
 pedrito :: Estudiante
@@ -252,7 +266,6 @@ queAlumno (UnEstudiante _ _ x)
   | x > 7 && x <= 10 = "Muy Bueno"
   | otherwise = "Nota no valida"
 
-
 -- Resolucion usando patter matching con inferencia
 aprobo estudiante = nota estudiante >= 7
 
@@ -270,7 +283,7 @@ legajoyNombre2 (UnEstudiante nombre2 legajo _) = legajo ++ ",  "  ++ nombre2
 -- Con pattern matching
 lefueMejorA (UnEstudiante _ _ unaNota) (UnEstudiante _ _ otraNota) = unaNota > otraNota
 
--- Mas abstracta y sin usar patter matching
+-- Mas abstracta
 lefueMejorA2 estudianteMejor estudianteNormal  = nota estudianteMejor > nota estudianteNormal
 
 -- Se puede cambiar la nota de un alumno?
@@ -489,20 +502,28 @@ doblesDeLista :: [Int] -> [Int]
 doblesDeLista [] = []
 doblesDeLista (x : xs) = x * 2 : doblesDeLista xs
 
+-- ---------------------------------
+
 -- Genere función sumatoria de los elementos de una lista
 sumatoriaDeLista :: [Int] -> Int
 sumatoriaDeLista [] = 0
 sumatoriaDeLista (x : xs) = x + sumatoriaDeLista xs
+
+-- ---------------------------------
 
 -- Genere la función longitud de una lista
 longitudDeLista :: [Int] -> Int
 longitudDeLista [] = 0
 longitudDeLista (x : xs) = 1 + longitudDeLista xs
 
+-- ---------------------------------
+
 -- Genere la función numero elevado a otro numero
 potencia :: Int -> Int -> Int
 potencia _ 0 = 1
 potencia x xs = x * potencia x (xs - 1)
+
+-- ---------------------------------
 
 -- Genere la función mientras no supera el tope muestra el elemento de la lista.
 mostrarElementoNLista :: [Int] -> Int -> Int
@@ -523,6 +544,8 @@ mostrarElementoNLista (x : xs) n
   -- Si n es mayor que 1, sigue buscando en el resto de la lista
   | otherwise = mostrarElementoNLista xs (n-1)  
 
+-- ---------------------------------
+
 -- Genere la función mostrar los n elementos primeros de la lista.
 mostrarPrimerosLista :: [Int] -> Int -> [Int]
 
@@ -530,6 +553,7 @@ mostrarPrimerosLista :: [Int] -> Int -> [Int]
 mostrarPrimerosLista _ 0 = []
 
 mostrarPrimerosLista (x : xs) n
+
 -- Caso base adicional 1: si n es menor o igual a 0, devuelve una lista vacía
   | n <= 0 = []
   
@@ -545,7 +569,45 @@ mostrarPrimerosLista (x : xs) n
 
 -- Orden superior
 
+-- Se refiere a la capacidad de un lenguaje de tratar a las funciones como valores, lo que significa que puedes pasar funciones como argumentos a otras funciones o devolver funciones como resultados de otras funciones.
 
+-- Supongamos que queremos definir una función llamada aplicarDosVeces que toma una función f y valor int x, y aplica la función f dos veces a x. Aquí está cómo podríamos implementarlo:
+
+-- Definimos la función de orden superior aplicarDosVeces
+aplicarDosVeces :: (a -> a) -> a -> a
+aplicarDosVeces f x = f (f x)
+
+-- Definimos una función de ejemplo que incrementa un número en 1
+incrementar :: Int -> Int
+incrementar n = n + 1
+
+-- Probamos aplicarDosVeces con la función incrementar y el valor 3
+resultado = aplicarDosVeces incrementar 3
+
+-- Esto nos deberia dar como resultado 5, ya que, seria como hacer:
+-- incrementar(incrementar 3)
+
+-- ---------------------------------
+
+-- Funcion "filter" es orden superior 
+
+-- La función filter toma una función booleana y una lista como entrada, y devuelve una nueva lista que contiene solo los elementos de la lista original para los cuales la función booleana devuelve True.
+
+-- Definimos una función booleana que verifica si un número es par
+esPar :: Int -> Bool
+esPar x = even x
+
+-- definimos una funcion que toma una lista de nros y usamos la función filter para filtrar los números pares
+numerosPares :: [Int] -> [Int]
+numerosPares lista = filter esPar lista
+
+-- Creamos la lista de nros
+numeros2 :: [Int]
+numeros2 = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+-- Al ejecutar:
+-- numerosPares numeros2
+-- Obtendremos una lista solo con los nros pares: [2, 4, 6, 8, 10]
 
 -- ---------------------------------
 -- Ejercicio 14
