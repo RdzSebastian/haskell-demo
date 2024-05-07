@@ -638,11 +638,71 @@ infosNutricionales = [infoManzana, infoBanana, infoPera]
 
 -- Cuales de los alimentos tienen hasta 100 calorias
 menorDe100Calorias :: InfoNutricional -> Bool
-menorDe100Calorias a = calorias a > 100
+menorDe100Calorias alimento = calorias alimento < 100
+-- "alimento" es el valor q entra por InfoNutricional y calorias es el valor que pido para hacer la comparacion
 
 -- Utilizacion de filter con map y composicion con .
 menos100Calorias :: [InfoNutricional] -> [Alimento]
 menos100Calorias = map alimento . filter menorDe100Calorias
+-- Se realizar un filter de la lista que esta implicita en el . usando la funcion menorDe100Calorias y luego armo un map con los "alimentos" que devuelven true al filter
+
+
+-- ---------------------------------
+-- Funcion foldl
+
+-- Se utiliza para aplicar una función a los elementos de una lista, de izquierda a derecha, para reducir la lista a un solo valor. 
+
+-- Definimos una función de suma
+sumar x y = x + y
+
+-- Usamos foldl para sumar todos los elementos de una lista
+sumaConFoldl :: [Int] -> Int
+sumaConFoldl lista = foldl sumar 0 lista
+
+-- fold se define como 
+-- foldl :: (b -> a -> b) -> b -> [a] -> b
+
+-- El primer argumento es la función binaria (b -> a -> b) que toma un acumulador y un elemento de la lista y devuelve un nuevo acumulador.
+
+-- El segundo es el valor inicial
+
+-- El tercero es la lista
+
+-- Funcion foldr 
+
+-- Es practicamente la misma funcionalidad de foldl pero aplica la funcion de derecha a izquierda 
+
+-- Se define como:
+-- foldr :: (a -> b -> b) -> b -> [a] -> b
+
+-- ---------------------------------
+-- Continua el ejercicio 14
+
+-- De entre los alimentos que son pococaloricos, si hay alguno que tenga mas proteínas que grasas
+
+-- Funcion que chequee si el alimento tiene mas proteina que grasa
+isProteSobreGrasa :: InfoNutricional -> Bool
+isProteSobreGrasa alimento = proteinas alimento > grasas alimento
+
+-- Funcion que aplica filtro de la lista con la funcion isProteSobreGrasa y luego le hace un ani 
+isInPocoCaloricoProteSobreGrasa :: [InfoNutricional] -> Bool
+isInPocoCaloricoProteSobreGrasa = any isProteSobreGrasa . filter menorDe100Calorias
+
+-- Esto nos devulve True al pasarle la lista infosNutricionales, ya que, Manzana tiene 95 calorias, 0.3 grasas y 0.5 proteinas
+
+-- --
+-- Obtener el alimento de mayor calorias
+compararPorCalorias :: InfoNutricional -> InfoNutricional -> InfoNutricional
+
+compararPorCalorias alimento1 alimento2 
+  | calorias alimento1 >= calorias alimento2 = alimento1
+  | otherwise = alimento2
+
+-- Creamos la funcion elDeMayor que toma una lista, a esta se le aplica compararPorCalorias con foldr1 y retorna el alimento mas calorico
+elDeMayor :: [InfoNutricional] -> Alimento
+elDeMayor = alimento . foldr1 compararPorCalorias
+
+-- Usamos la funcion foldr1 que a diferencia de foldr asume que la lista no está vacía y utiliza el último elemento de la lista como valor inicial en lugar de requerir un valor inicial explícito.
 
 -- ---------------------------------
 -- Clase 7
