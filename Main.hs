@@ -45,9 +45,11 @@ distanciaRecorrida t = 0.5 * t * velocidadAlcanzada t
 rebotaEnElPiso :: Double -> Bool
 rebotaEnElPiso t = (80 - distanciaRecorrida t) < 0
 
--- Transparencia Referencial: es la propiedad de las funciones de no depender de variables externas a ellas mismas, su comportamiento y resultado solo están determinados por sus argumentos.
+-- Transparencia Referencial: es la propiedad de las funciones de no depender de variables externas a ellas mismas, su 
+-- comportamiento y resultado solo están determinados por sus argumentos.
 
--- Las funciones son como cajas negras que toman ciertos valores de entrada y producen un resultado predecible sin importar el contexto externo.
+-- Las funciones son como cajas negras que toman ciertos valores de entrada y producen un resultado predecible sin importar
+-- el contexto externo.
 
 -- --------------------------------
 -- Clase 3
@@ -67,7 +69,8 @@ nombreFormateado nombre apellido = apellido ++ ", " ++ nombre
 -- --------------------------------
 -- Ejercicio 3
 
--- Pattern Matching: Se utiliza de funciones para manejar diferentes casos frente a la considencia de valores. Haskell verifica exhaustivamente los patrones, garantizando que todos los casos sean cubiertos.
+-- Pattern Matching: Se utiliza de funciones para manejar diferentes casos frente a la considencia de valores. Haskell
+-- verifica exhaustivamente los patrones, garantizando que todos los casos sean cubiertos.
 
 -- Mas consiso seria: Permite asignar comportamientos basados concidencias de valores, listas, etc.
 
@@ -94,7 +97,8 @@ color cualquiera = "gris"
 -- color "x"
 -- La consola devolvera "gris" si no matcheaa con alguno declarado
 
--- El orden en el que se declara es importante, se va verificando de arriba hacia abajo hasta que se encuentra y se deja de verificar
+-- El orden en el que se declara es importante, se va verificando de arriba hacia abajo hasta que se encuentra y se 
+-- deja de verificar
 
 -- ---------------------------------
 -- Ejercicio 3
@@ -108,7 +112,8 @@ doble x = 2 * x
 -- Ejercicio 4
 
 -- Inferencia
--- Se refiere a la capacidad del compilador o intérprete de deducir automáticamente el tipo de una expresión en función del contexto en el que se utiliza, sin necesidad de que el programador especifique explícitamente el tipo.
+-- Se refiere a la capacidad del compilador o intérprete de deducir automáticamente el tipo de una expresión en función
+-- del contexto en el que se utiliza, sin necesidad de que el programador especifique explícitamente el tipo.
 
 -- Definimos una funcion que nos diga si un numero y otro tienen una diferencia de 10 entre si como minimo.
 -- Pero en este caso dejamos q infiera el tipo el interprete de haskell por lo cual solo definimos la funcion y ya
@@ -184,9 +189,11 @@ diaDeSemana 7 = "Domingos"
 -- Si se usa diaDeSemana 8 arrojara:
 -- "*** Exception: app/Main.hs:(176,1)-(182,26): Non-exhaustive patterns in function diaDeSemana
 
--- Esto se da a causa de que Haskell no tiene un patron definido para el dia 8 o mejor dicho, no existe un pattern matching para el dia 8
+-- Esto se da a causa de que Haskell no tiene un patron definido para el dia 8 o mejor dicho, no existe un pattern 
+-- matching para el dia 8
 
--- Cuando definimos funciones en Haskell con patern matching es necesario incluir un caso por defecto o manejar todas las posibilidades ej:
+-- Cuando definimos funciones en Haskell con patern matching es necesario incluir un caso por defecto o manejar todas 
+-- las posibilidades ej:
 -- diaDeSemana _ = "Número de día inválido"
 
 -- Para resover esto de otra manera sino se puede implementar
@@ -223,7 +230,8 @@ edadDePersona (_, edadP) = edadP
 -- Ejercicio 9
 -- Data
 
--- Se utiliza para definir estructuras de datos complejos que contienen diferentes tipos de datos. Similar a la utilizacion de struct en C
+-- Se utiliza para definir estructuras de datos complejos que contienen diferentes tipos de datos. Similar a la 
+-- utilizacion de struct en C
 -- Permiter agrupar múltiples variables o campos bajo un solo nombre para representar un concepto más complejo.
 
 -- -- 
@@ -240,7 +248,8 @@ data Estudiante = UnEstudiante
   }
   deriving (Show, Eq)
 -- Extensiones de Clases
--- Al usar deriving permite mostrar y comparar los datos de la clase con solo colocar: "juanita" en consola, o permite hacer "juanita == pedrito" lo que devolvera False
+-- Al usar deriving permite mostrar y comparar los datos de la clase con solo colocar: "juanita" en consola, o permite
+-- hacer "juanita == pedrito" lo que devolvera False
 
 -- Asignacion de valores
 pedrito :: Estudiante
@@ -299,13 +308,16 @@ cambiarNota nuevaNota  (UnEstudiante  nombre2 legajo _ ) = UnEstudiante nombre2 
 -- nota juanita
 -- Nos devolvera nuevamente 5, la nota anterior
 
--- Lo mismo si hacemos una funcion que nos suba la nota, esta devolvera una juanita con la nota subida, pero juanita seguira teniendo su nota 5
+-- Lo mismo si hacemos una funcion que nos suba la nota, esta devolvera una juanita con la nota subida, pero juanita 
+--seguira teniendo su nota 5
 subirNota :: Estudiante -> Estudiante
 subirNota estudiante = cambiarNota (nota estudiante +1) estudiante
 
--- En Haskell, los valores son inmutables por defecto, lo que significa que una vez que se crea un valor utilizando un constructor, no se puede modificar.
+-- En Haskell, los valores son inmutables por defecto, lo que significa que una vez que se crea un valor utilizando un
+-- constructor, no se puede modificar.
 
--- Sin embargo, se pueden crear nuevas versiones de valores modificados a partir de valores existentes utilizando funciones y operaciones de datos.
+-- Sin embargo, se pueden crear nuevas versiones de valores modificados a partir de valores existentes utilizando funciones
+-- y operaciones de datos.
 
 -- Si en ejecutamos lo siguiente:
 -- juanitaModificada = juanita {nota=10}
@@ -419,11 +431,13 @@ suma x y = x + y
 
 --Esta función suma toma dos argumentos x e y y devuelve su suma.
 
--- Ahora, si aplicamos suma a un solo argumento, como suma 3, obtenemos una nueva función que espera otro número para sumar:
+-- Ahora, si aplicamos suma a un solo argumento, como suma 3, obtenemos una nueva función que espera otro número para 
+-- sumar:
 
 sumaTres = suma 3
 
--- En este caso, sumaTres es una función parcialmente aplicada de suma que ahora podemos usar y al pasarle un solo argumento sumará ese argumento con 3
+-- En este caso, sumaTres es una función parcialmente aplicada de suma que ahora podemos usar y al pasarle un solo 
+-- argumento sumará ese argumento con 3
 
 -- Por ejemplo, si aplicamos sumaTres 5, obtenemos el resultado 8.
 
@@ -437,7 +451,8 @@ promociona estudiante = not (esMenorAOcho (nota estudiante))
 -- Esto mismo pero usando composicion de funciones con . seria:
 promociona2 = not . esMenorAOcho . nota
 
--- El operador punto (.) en Haskell se utiliza para realizar composición de funciones. Permite combinar dos funciones para crear una nueva función. La función resultante de la composición aplicará primero la segunda función y luego la primera.
+-- El operador punto (.) en Haskell se utiliza para realizar composición de funciones. Permite combinar dos funciones para
+-- crear una nueva función. La función resultante de la composición aplicará primero la segunda función y luego la primera
 
 -- Un ejemplo mas simple podria ser:
 -- Tenemos las siguientes funciones que multiplican por 2 y la otra por su mismo valor
@@ -449,9 +464,11 @@ cuadrado x = x * x
 -- La composicion con . nos permitiria hacer:
 dobleDelCuadrado = doble . cuadrado
 
--- Aquí, dobleDelCuadrado es una nueva función que primero calcula el cuadrado del número utilizando cuadrado y luego aplica el doble a ese resultado utilizando doble.
+-- Aquí, dobleDelCuadrado es una nueva función que primero calcula el cuadrado del número utilizando cuadrado y luego 
+-- aplica el doble a ese resultado utilizando doble.
 
--- Tambien como se puede ver se elimina el parametro "x" o en el caso anterior, el parametro "estudiante", esto se denomina "Point Free"
+-- Tambien como se puede ver se elimina el parametro "x" o en el caso anterior, el parametro "estudiante", esto se 
+-- denomina "Point Free"
 
 -- ---------------------------------
 -- Recursividad en funciones 
@@ -462,18 +479,22 @@ factorial :: Integer -> Integer
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
 
--- Esta función, factorial, toma un entero n como argumento y devuelve el factorial de ese número. La definición tiene dos casos:
+-- Esta función, factorial, toma un entero n como argumento y devuelve el factorial de ese número. La definición tiene
+-- dos casos:
 
 -- El caso base: Si n es 0, entonces el factorial es 1. Esto es lo que se define con factorial 0 = 1.
 
--- El caso recursivo: Si n es cualquier otro número, el factorial se calcula multiplicando n por el factorial de n - 1. Esto se logra con factorial n = n * factorial (n - 1).
+-- El caso recursivo: Si n es cualquier otro número, el factorial se calcula multiplicando n por el factorial de n - 1. 
+-- Esto se logra con factorial n = n * factorial (n - 1).
 
--- Cuando llamas a factorial con un número entero, la función se llama a sí misma repetidamente hasta que alcanza el caso base (cuando n es 0), y luego todas las llamadas recursivas se resuelven para obtener el resultado final.
+-- Cuando llamas a factorial con un número entero, la función se llama a sí misma repetidamente hasta que alcanza el caso
+-- base (cuando n es 0), y luego todas las llamadas recursivas se resuelven para obtener el resultado final.
 
 -- ---------------------------------
 -- Recursividad en Listas 
 
--- El patrón (x:xs) se utiliza comúnmente en Haskell para descomponer una lista en su primer elemento (x) y el resto de la lista (xs)
+-- El patrón (x:xs) se utiliza comúnmente en Haskell para descomponer una lista en su primer elemento (x) y el resto de 
+-- la lista (xs)
 
 -- Calcular la longitud de una Lista
 
@@ -487,9 +508,12 @@ longitud (x:xs) = 1 + longitud xs
 
 -- Caso base: Si la lista es vacía ([]), entonces la longitud es 0. Esta es la línea longitud [] = 0.
 
--- Caso recursivo: Si la lista no está vacía y tiene al menos un elemento (x), la longitud es 1 más la longitud del resto de la lista (xs).
+-- Caso recursivo: Si la lista no está vacía y tiene al menos un elemento (x), la longitud es 1 más la longitud del resto
+-- de la lista (xs).
 
--- Cuando llamas a longitud con una lista, la función se llama a sí misma recursivamente, pasando el resto de la lista cada vez, hasta que alcanza la lista vacía, momento en el que se detiene y devuelve 0. Luego suma los resultados a medida que regresa a través de las llamadas recursivas para obtener la longitud total.
+-- Cuando llamas a longitud con una lista, la función se llama a sí misma recursivamente, pasando el resto de la lista 
+-- cada vez, hasta que alcanza la lista vacía, momento en el que se detiene y devuelve 0. Luego suma los resultados a medida 
+-- que regresa a través de las llamadas recursivas para obtener la longitud total.
 
 -- ---------------------------------
 -- Ejercicio 13
@@ -569,9 +593,11 @@ mostrarPrimerosLista (x : xs) n
 
 -- Orden superior
 
--- Se refiere a la capacidad de un lenguaje de tratar a las funciones como valores, lo que significa que puedes pasar funciones como argumentos a otras funciones o devolver funciones como resultados de otras funciones.
+-- Se refiere a la capacidad de un lenguaje de tratar a las funciones como valores, lo que significa que puedes pasar 
+-- funciones como argumentos a otras funciones o devolver funciones como resultados de otras funciones.
 
--- Supongamos que queremos definir una función llamada aplicarDosVeces que toma una función f y valor int x, y aplica la función f dos veces a x. Aquí está cómo podríamos implementarlo:
+-- Supongamos que queremos definir una función llamada aplicarDosVeces que toma una función f y valor int x, y aplica la 
+-- función f dos veces a x. Aquí está cómo podríamos implementarlo:
 
 -- Definimos la función de orden superior aplicarDosVeces
 aplicarDosVeces :: (a -> a) -> a -> a
@@ -591,7 +617,8 @@ resultado = aplicarDosVeces incrementar 3
 
 -- Funcion "filter" es orden superior 
 
--- La función filter toma una función booleana y una lista como entrada, y devuelve una nueva lista que contiene solo los elementos de la lista original para los cuales la función booleana devuelve True.
+-- La función filter toma una función booleana y una lista como entrada, y devuelve una nueva lista que contiene solo los
+-- elementos de la lista original para los cuales la función booleana devuelve True.
 
 -- Definimos una función booleana que verifica si un número es par
 esPar :: Int -> Bool
@@ -644,13 +671,15 @@ menorDe100Calorias alimento = calorias alimento < 100
 -- Utilizacion de filter con map y composicion con .
 menos100Calorias :: [InfoNutricional] -> [Alimento]
 menos100Calorias = map alimento . filter menorDe100Calorias
--- Se realizar un filter de la lista que esta implicita en el . usando la funcion menorDe100Calorias y luego armo un map con los "alimentos" que devuelven true al filter
+-- Se realizar un filter de la lista que esta implicita en el . usando la funcion menorDe100Calorias y luego armo un map 
+-- con los "alimentos" que devuelven true al filter
 
 
 -- ---------------------------------
 -- Funcion foldl
 
--- Se utiliza para aplicar una función a los elementos de una lista, de izquierda a derecha, para reducir la lista a un solo valor. 
+-- Se utiliza para aplicar una función a los elementos de una lista, de izquierda a derecha, para reducir la lista a un 
+-- solo valor. 
 
 -- Definimos una función de suma
 sumar x y = x + y
@@ -662,7 +691,8 @@ sumaConFoldl lista = foldl sumar 0 lista
 -- fold se define como 
 -- foldl :: (b -> a -> b) -> b -> [a] -> b
 
--- El primer argumento es la función binaria (b -> a -> b) que toma un acumulador y un elemento de la lista y devuelve un nuevo acumulador.
+-- El primer argumento es la función binaria (b -> a -> b) que toma un acumulador y un elemento de la lista y devuelve un
+-- nuevo acumulador.
 
 -- El segundo es el valor inicial
 
@@ -698,11 +728,13 @@ compararPorCalorias alimento1 alimento2
   | calorias alimento1 >= calorias alimento2 = alimento1
   | otherwise = alimento2
 
--- Creamos la funcion elDeMayor que toma una lista, a esta se le aplica compararPorCalorias con foldr1 y retorna el alimento mas calorico
+-- Creamos la funcion elDeMayor que toma una lista, a esta se le aplica compararPorCalorias con foldr1 y retorna el alimento 
+-- mas calorico
 elDeMayor :: [InfoNutricional] -> Alimento
 elDeMayor = alimento . foldr1 compararPorCalorias
 
--- Usamos la funcion foldr1 que a diferencia de foldr asume que la lista no está vacía y utiliza el último elemento de la lista como valor inicial en lugar de requerir un valor inicial explícito.
+-- Usamos la funcion foldr1 que a diferencia de foldr asume que la lista no está vacía y utiliza el último elemento de la 
+-- lista como valor inicial en lugar de requerir un valor inicial explícito.
 
 -- ---------------------------------
 -- Clase 7
